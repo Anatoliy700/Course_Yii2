@@ -14,8 +14,9 @@ class Task extends Model
   public function rules() {
     return [
       [['date', 'title', 'description'], 'required'],
-      ['date', 'date', 'format' => 'php:d.m.Y'],
-      ['title', 'string', 'length' => [5, 10]],
+      ['date', 'date', 'format' => 'php:Y-m-d', 'min' => date('Y-m-d'), 'minString' => 'текущей'],
+      //['title', 'string', 'length' => [5, 10]],
+      ['title', 'app\components\validators\TaskStringValidator', 'length' => [5, 20], 'startWord' => 'Сделать'],
       ['description', 'string', 'min' => 5]
     ];
   }
