@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use app\models\tables\Users;
+
 class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
 {
     public $id;
@@ -9,6 +11,22 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     public $password;
     public $authKey;
     public $accessToken;
+    protected $_userDb;
+    
+    public static function getUserDb($param){
+      if(is_array($param)){
+        foreach ($param as $paramName => $paramValue ) {
+          return Users::find()
+            ->select('id, username, password')
+            ->where([$paramName => $paramValue])
+            ->one();
+        }
+      }
+      return Users::find()
+        ->select('id, username, password')
+        ->where(['id' => $param])
+        ->one();
+    }
 
     private static $users = [
         '100' => [
@@ -33,7 +51,8 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public static function findIdentity($id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+      $_user = self::getUserDb($id);
+      return isset($_user) ? new static($_user->toArray()) : null;
     }
 
     /**
@@ -58,13 +77,8 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public static function findByUsername($username)
     {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
+      $_user = self::getUserDb(['username' => $username]);
+      return isset($_user) ? new static($_user->toArray()) : null;
     }
 
     /**
@@ -99,6 +113,6 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->password === $password;
+        return $this->password === md5($password);
     }
 }

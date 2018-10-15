@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-
+use Yii;
 use yii\base\Model;
 
 class Task extends Model
@@ -10,15 +10,38 @@ class Task extends Model
   public $date;
   public $title;
   public $description;
+  static protected $taskDbClass = '\app\models\tables\Tasks';
   
   public function rules() {
     return [
       [['date', 'title', 'description'], 'required'],
       ['date', 'date', 'format' => 'php:Y-m-d', 'min' => date('Y-m-d'), 'minString' => 'текущей'],
-      //['title', 'string', 'length' => [5, 10]],
-      ['title', 'app\components\validators\TaskStringValidator', 'length' => [5, 20], 'startWord' => 'Сделать'],
+      ['title', 'string', 'length' => [5, 10]],
+      //['title', 'app\components\validators\TaskStringValidator', 'length' => [5, 20], 'startWord' => 'Сделать'],
       ['description', 'string', 'min' => 5]
     ];
+  }
+  //TODO: доделать выборку с разными периодами
+  static public function getTaskAll() {
+    $models = self::$taskDbClass::find()
+      ->where(['user_id' => Yii::$app->user->identity->id])
+      ->andWhere(['MONTH(date)' => date('m')])
+      ->all();
+    $tasks = [];
+    
+    foreach ($models as $model) {
+      $task = new self();
+      $task->attributes = $model->toArray();
+      $tasks[] = $task;
+    }
+    return $tasks;
+  }
+  
+  public function save() {
+    $model = new self::$taskDbClass();
+    $model->attributes = $this->toArray();
+    $model->user_id = Yii::$app->user->identity->id;
+    $model->save();
   }
   
   public function attributeLabels() {
@@ -26,14 +49,6 @@ class Task extends Model
       'date' => 'Дата',
       'title' => 'Задача',
       'description' => 'Описание'
-    ];
-  }
-  
-  public function fields() {
-    return [
-      'Дата' => 'date',
-      'Задача' => 'title',
-      'Описание' => 'description'
     ];
   }
 }

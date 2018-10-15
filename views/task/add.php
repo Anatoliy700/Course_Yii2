@@ -1,5 +1,9 @@
 <?php
 
+/* @var $message string */
+
+/* @var $model \app\models\Task */
+
 use \yii\widgets\ActiveForm;
 use \yii\helpers\Html;
 
