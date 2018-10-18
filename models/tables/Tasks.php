@@ -13,6 +13,7 @@ use yii\db\ActiveRecord;
  * @property string $description
  * @property string $date
  * @property int $user_id
+ * @property string $fullUsername
  *
  * @property Users $user
  */
@@ -35,7 +36,8 @@ class Tasks extends ActiveRecord
       [['date'], 'safe'],
       [['title'], 'string', 'max' => 50],
       [['description'], 'string', 'max' => 255],
-      [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['user_id' => 'id']]
+      [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['user_id' => 'id']],
+      [['fullUsername'], 'safe']
     ];
   }
   
@@ -48,12 +50,13 @@ class Tasks extends ActiveRecord
       'title' => 'Title',
       'description' => 'Description',
       'date' => 'Date',
-      'user_id' => 'User ID'
+      'user_id' => 'User ID',
+      'fullUsername' => 'Username'
     ];
   }
   
   public function fields() {
-    return ['title', 'description', 'date'];
+    return ['id', 'title', 'description', 'date'];
   }
   
   /**
@@ -61,5 +64,9 @@ class Tasks extends ActiveRecord
    */
   public function getUser() {
     return $this->hasOne(Users::class, ['id' => 'user_id']);
+  }
+  
+  public function getFullUsername() {
+    return $this->user->first_name . ' ' . $this->user->last_name;
   }
 }

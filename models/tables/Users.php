@@ -67,4 +67,14 @@ class Users extends \yii\db\ActiveRecord
   public function getRole() {
     return $this->hasOne(Roles::class, ['id' => 'role_id']);
   }
+  
+  static public function getArrAllUsers() {
+    $users = self::find()->all();
+    $usersArray = [];
+    foreach ($users as $user) {
+      $usersArray[$user->id] = $user->first_name . ' ' . $user->last_name;
+    }
+    
+    return $usersArray;
+  }
 }

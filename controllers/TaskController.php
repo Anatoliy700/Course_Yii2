@@ -2,8 +2,9 @@
 
 namespace app\controllers;
 
-use app\models\tables\Users;
+use Yii;
 use app\models\Task;
+use app\models\TaskSearch;
 use yii\web\Controller;
 
 class TaskController extends Controller
@@ -16,8 +17,19 @@ class TaskController extends Controller
   }
   
   public function actionIndex() {
-    return $this->render('index', ['models' => Task::getTaskAll()]);
+//    return $this->render('index', ['models' => Task::getTaskAll()]);
+    $dataProvider = (new TaskSearch())->search(Yii::$app->request->queryParams);
     
+    return $this->render('index', [
+      'dataProvider' => $dataProvider
+    ]);
+  }
+  
+  public function actionView($id) {
+    $model = Task::getTask($id);
+    return $this->render('view', [
+      'model' => $model
+    ]);
   }
   
   public function actionAdd() {
@@ -31,18 +43,5 @@ class TaskController extends Controller
       'message' => $message,
       'model' => $model
     ]);
-  }
-  
-  public function actionTest() {
-    /*    $user = new Users();
-        $user->username = 'admin';
-        $user->password = md5('admin');
-        $user->first_name = 'Иван';
-        $user->last_name = 'Иванов';
-        $user->role_id = '1';
-        $user->save();*/
-    
-    $user = Users::findOne(1);
-    var_dump($user->role);
   }
 }

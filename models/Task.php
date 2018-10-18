@@ -2,11 +2,13 @@
 
 namespace app\models;
 
+use app\models\tables\Tasks;
 use Yii;
 use yii\base\Model;
 
 class Task extends Model
 {
+  public $id;
   public $date;
   public $title;
   public $description;
@@ -14,6 +16,7 @@ class Task extends Model
   
   public function rules() {
     return [
+      [['id'], 'integer', 'min' => 1],
       [['date', 'title', 'description'], 'required'],
       ['date', 'date', 'format' => 'php:Y-m-d', 'min' => date('Y-m-d'), 'minString' => 'текущей'],
       ['title', 'string', 'length' => [5, 10]],
@@ -21,6 +24,7 @@ class Task extends Model
       ['description', 'string', 'min' => 5]
     ];
   }
+  
   //TODO: доделать выборку с разными периодами
   static public function getTaskAll() {
     $models = self::$taskDbClass::find()
@@ -35,6 +39,10 @@ class Task extends Model
       $tasks[] = $task;
     }
     return $tasks;
+  }
+  
+  static public function getTask($id) {
+    return new self(Tasks::findOne($id)->toArray());
   }
   
   public function save() {
