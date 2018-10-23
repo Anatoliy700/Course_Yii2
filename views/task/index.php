@@ -14,6 +14,12 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="tasks-index">
   <h1><?= Html::encode($this->title) ?></h1>
   
+    <?php $form = \yii\widgets\ActiveForm::begin(['method' => 'get']) ?>
+    <?= $form->field($searchModel, 'date')->widget(\yii\jui\DatePicker::class, ['dateFormat' => 'yyyy-MM'])?>
+    <?= Html::submitButton('Отфильтровать') ?>
+    <?php \yii\widgets\ActiveForm::end() ?>
+    
+    
   <?= ListView::widget([
     'dataProvider' => $dataProvider,
     'itemView' => 'taskItem',

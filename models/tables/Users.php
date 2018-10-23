@@ -3,6 +3,9 @@
 namespace app\models\tables;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "users".
@@ -13,68 +16,88 @@ use Yii;
  * @property string $first_name
  * @property string $last_name
  * @property int $role_id
+ * @property string $email
+ * @property string $created_at
+ * @property string $updated_at
  *
  * @property Tasks[] $tasks
  * @property Roles $role
  */
-class Users extends \yii\db\ActiveRecord
+class Users extends ActiveRecord
 {
-  /**
-   * {@inheritdoc}
-   */
-  public static function tableName() {
-    return 'users';
-  }
-  
-  /**
-   * {@inheritdoc}
-   */
-  public function rules() {
-    return [
-      [['username', 'password', 'first_name', 'last_name', 'role_id'], 'required'],
-      [['role_id'], 'integer'],
-      [['username', 'first_name', 'last_name'], 'string', 'max' => 50],
-      [['password'], 'string', 'max' => 100],
-      [['username'], 'unique'],
-      [['role_id'], 'exist', 'skipOnError' => true, 'targetClass' => Roles::class, 'targetAttribute' => ['role_id' => 'id']],
-    ];
-  }
-  
-  /**
-   * {@inheritdoc}
-   */
-  public function attributeLabels() {
-    return [
-      'id' => 'ID',
-      'username' => 'Username',
-      'password' => 'Password',
-      'first_name' => 'First Name',
-      'last_name' => 'Last Name',
-      'role_id' => 'Role ID',
-    ];
-  }
-  
-  /**
-   * @return \yii\db\ActiveQuery
-   */
-  public function getTasks() {
-    return $this->hasMany(Tasks::class, ['user_id' => 'id']);
-  }
-  
-  /**
-   * @return \yii\db\ActiveQuery
-   */
-  public function getRole() {
-    return $this->hasOne(Roles::class, ['id' => 'role_id']);
-  }
-  
-  static public function getArrAllUsers() {
-    $users = self::find()->all();
-    $usersArray = [];
-    foreach ($users as $user) {
-      $usersArray[$user->id] = $user->first_name . ' ' . $user->last_name;
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName() {
+        return 'users';
     }
     
-    return $usersArray;
-  }
+    public function behaviors() {
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+                'value' => new Expression('NOW()'),
+            ],
+        ];
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function rules() {
+        return [
+            [['username', 'password', 'first_name', 'last_name', 'role_id', 'email'], 'required'],
+            [['role_id'], 'integer'],
+            [['created_at', 'updated_at'], 'safe'],
+            [['username', 'first_name', 'last_name', 'email'], 'string', 'max' => 50],
+            [['password'], 'string', 'max' => 100],
+            [['username'], 'unique'],
+            [['role_id'], 'exist', 'skipOnError' => true, 'targetClass' => Roles::class, 'targetAttribute' => ['role_id' => 'id']],
+        ];
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels() {
+        return [
+            'id' => 'ID',
+            'username' => 'Username',
+            'password' => 'Password',
+            'first_name' => 'First Name',
+            'last_name' => 'Last Name',
+            'role_id' => 'Role ID',
+            'email' => 'Email',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+        ];
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTasks() {
+        return $this->hasMany(Tasks::class, ['user_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRole() {
+        return $this->hasOne(Roles::class, ['id' => 'role_id']);
+    }
+    
+    static public function getArrAllUsers() {
+        $users = self::find()->all();
+        $usersArray = [];
+        foreach ($users as $user) {
+            $usersArray[$user->id] = $user->first_name . ' ' . $user->last_name;
+        }
+        
+        return $usersArray;
+    }
 }

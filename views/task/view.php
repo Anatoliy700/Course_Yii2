@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'model' => $model,
     'attributes' => [
       'date:date',
-//      'description',
+      'description',
     ]
   ]) ?>
 </div>

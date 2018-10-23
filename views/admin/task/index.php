@@ -18,21 +18,38 @@ $this->params['breadcrumbs'][] = $this->title;
   <p>
     <?= Html::a('Create Tasks', ['create'], ['class' => 'btn btn-success']) ?>
   </p>
-  
-  <?= GridView::widget([
-    'dataProvider' => $dataProvider,
-    'filterModel' => $searchModel,
-    'columns' => [
-      ['class' => 'yii\grid\SerialColumn'],
-      
-      'id',
-      'title',
-      'description',
-      'date',
-//            'user_id',
-      'fullUsername',
-      
-      ['class' => 'yii\grid\ActionColumn'],
-    ],
-  ]); ?>
+    <?php $form = \yii\widgets\ActiveForm::begin(['method' => 'get']) ?>
+    <?= $form->field($searchModel, 'date')->widget(\yii\jui\DatePicker::class, ['dateFormat' => 'yyyy-MM'])?>
+    <?= $form->field($searchModel, 'username')->textInput()?>
+    <?= Html::submitButton('Отфильтровать') ?>
+    <?php \yii\widgets\ActiveForm::end() ?>
+
+
+    <?= \yii\widgets\ListView::widget([
+        'dataProvider' => $dataProvider,
+        'itemView' => 'taskItem',
+        'itemOptions' => function ($model) {
+            return ['tag' => 'a', 'href' => \yii\helpers\Url::to(['view', 'id' => $model->id])];
+        },
+    ]) ?>
+    
+    
+    
+    
+<!--  --><?//= GridView::widget([
+//    'dataProvider' => $dataProvider,
+//    'filterModel' => $searchModel,
+//    'columns' => [
+//      ['class' => 'yii\grid\SerialColumn'],
+//
+//      'id',
+//      'title',
+//      'description',
+//      'date',
+////            'user_id',
+//      'username',
+//
+//      ['class' => 'yii\grid\ActionColumn'],
+//    ],
+//  ]); ?>
 </div>
