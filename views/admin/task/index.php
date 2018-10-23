@@ -19,7 +19,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= Html::a('Create Tasks', ['create'], ['class' => 'btn btn-success']) ?>
   </p>
     <?php $form = \yii\widgets\ActiveForm::begin(['method' => 'get']) ?>
-    <?= $form->field($searchModel, 'date')->widget(\yii\jui\DatePicker::class, ['dateFormat' => 'yyyy-MM'])?>
+    <?= $form->field($searchModel, 'date')->widget(\yii\jui\DatePicker::class, [
+        'dateFormat' => 'yyyy-MM',
+        'options' => [
+            'class' => 'form-control'
+        ]
+    ])?>
     <?= $form->field($searchModel, 'username')->textInput()?>
     <?= Html::submitButton('Отфильтровать') ?>
     <?php \yii\widgets\ActiveForm::end() ?>

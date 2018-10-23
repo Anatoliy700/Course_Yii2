@@ -6,7 +6,7 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log', 'eventHandlerRegisterUser'],
+    'bootstrap' => ['log', 'eventHandlers'],
     'language' => 'ru',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -44,8 +44,8 @@ $config = [
             ],
         ],
         'db' => $db,
-        'eventHandlerRegisterUser' => [
-            'class' => 'app\components\eventHandlers\RegisterUser'
+        'eventHandlers' => [
+            'class' => 'app\components\eventHandlers\RegisterEventHandlers'
         ]
         /*
         'urlManager' => [

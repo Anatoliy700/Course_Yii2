@@ -6,6 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "users".
@@ -92,12 +93,6 @@ class Users extends ActiveRecord
     }
     
     static public function getArrAllUsers() {
-        $users = self::find()->all();
-        $usersArray = [];
-        foreach ($users as $user) {
-            $usersArray[$user->id] = $user->first_name . ' ' . $user->last_name;
-        }
-        
-        return $usersArray;
+        return ArrayHelper::map(self::find()->all(), 'id', 'username');
     }
 }
