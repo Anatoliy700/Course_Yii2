@@ -42,12 +42,12 @@ AppAsset::register($this);
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
-            ['label' => 'Админка', 'url' => ['/admin/task/index']],
+            ['label' => 'Админка', 'url' => ['/admin']],
             Yii::$app->user->isGuest ? (
             ['label' => 'Регистрация', 'url' => ['/site/create']]
             ) : (
             
-            ['label' => 'Личный кабинет', 'url' => ['/person-cab']]
+            ['label' => 'Личный кабинет', 'url' => ['/lk']]
             ),
             Yii::$app->user->isGuest ? (
             ['label' => 'Login', 'url' => ['/site/login']]

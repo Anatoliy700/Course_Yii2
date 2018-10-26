@@ -60,13 +60,7 @@ class SiteController extends Controller
      * @return string
      */
     public function actionIndex() {
-        $searchModel = new TaskSearch(['pageSize' => 10]);
-        $searchModel->setAttribute('date', date('Y-m'));
-        $dataProvider = $searchModel->search(null);
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel
-        ]);
+        return $this->redirect(['task/index']);
     }
     
     /**

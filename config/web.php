@@ -10,7 +10,7 @@ $config = [
     'language' => 'ru',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
     ],
     'components' => [
         'request' => [
@@ -63,6 +63,14 @@ $config = [
         ],
         */
     ],
+    'modules' => [
+        'lk' => [
+            'class' => 'app\modules\lk\Lk',
+        ],
+        'admin' => [
+            'class' => 'app\modules\admin\admin',
+        ],
+    ],
     'params' => $params,
 ];
 
@@ -74,7 +82,7 @@ if (YII_ENV_DEV) {
         // uncomment the following to add your IP if you are not connecting from localhost.
         //'allowedIPs' => ['127.0.0.1', '::1'],
     ];
-
+    
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
