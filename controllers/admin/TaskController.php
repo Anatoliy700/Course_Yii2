@@ -5,7 +5,8 @@ namespace app\controllers\admin;
 use Yii;
 use app\models\tables\Users;
 use app\models\tables\Tasks;
-use app\models\TaskSearch;
+use app\models\Task;
+use app\models\searchModels\TaskSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -70,7 +71,7 @@ class TaskController extends Controller
    * @return mixed
    */
   public function actionCreate() {
-    $model = new Tasks();
+    $model = new Task();
     $users = Users::getArrAllUsers();
     
     if ($model->load(Yii::$app->request->post()) && $model->save()) {

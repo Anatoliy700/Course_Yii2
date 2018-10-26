@@ -6,6 +6,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\tables\Users */
 /* @var $form yii\widgets\ActiveForm */
+/* @var $roles array */
 ?>
 
 <div class="users-form">
@@ -20,7 +21,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'last_name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'role_id')->textInput() ?>
+    <?= $form->field($model, 'role_id')->dropDownList($roles) ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 

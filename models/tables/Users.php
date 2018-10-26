@@ -71,7 +71,7 @@ class Users extends ActiveRecord
             'password' => 'Password',
             'first_name' => 'First Name',
             'last_name' => 'Last Name',
-            'role_id' => 'Role ID',
+            'role_id' => 'Role',
             'email' => 'Email',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

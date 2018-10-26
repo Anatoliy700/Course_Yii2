@@ -6,7 +6,7 @@ use \yii\helpers\Html;
 /* @var $model \app\models\Task */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Задачи', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Задачи', 'url' => ["index"]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

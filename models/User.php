@@ -2,32 +2,57 @@
 
 namespace app\models;
 
+use app\models\tables\Roles;
+use Yii;
 use app\models\tables\Users;
+use yii\base\Model;
 
-class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
+class User extends Model implements \yii\web\IdentityInterface
 {
     public $id;
     public $username;
     public $password;
+    public $password_repeat;
+    public $first_name;
+    public $last_name;
+    public $email;
     public $authKey;
     public $accessToken;
-    protected $_userDb;
+    public $captcha;
     
-    public static function getUserDb($param){
-      if(is_array($param)){
-        foreach ($param as $paramName => $paramValue ) {
-          return Users::find()
-            ->select('id, username, password')
-            ->where([$paramName => $paramValue])
-            ->one();
-        }
-      }
-      return Users::find()
-        ->select('id, username, password')
-        ->where(['id' => $param])
-        ->one();
+    const SCENARIO_LOGIN = 'login';
+    const SCENARIO_REGISTER = 'register';
+    
+    public function scenarios() {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_LOGIN] = ['id', 'username', 'password', 'first_name', 'last_name'];
+        $scenarios[self::SCENARIO_REGISTER] = ['username', 'first_name', 'last_name', 'email', 'password', 'password_repeat', 'captcha'];
+        return $scenarios;
     }
-
+    
+    public function rules() {
+        return [
+            [['username', 'password', 'password_repeat', 'first_name', 'last_name', 'email'], 'required'],
+            [['username', 'first_name', 'last_name', 'email'], 'string', 'max' => 50],
+            [['password'], 'string', 'max' => 100, 'min' => 5],
+            ['password', 'compare'],
+            ['email', 'email'],
+            ['captcha', 'captcha']
+        ];
+    }
+    
+    public function attributeLabels() {
+        return [
+            'username' => 'Username',
+            'password' => 'Password repeat',
+            'password_repeat' => 'Password',
+            'first_name' => 'First Name',
+            'last_name' => 'Last Name',
+            'email' => 'Email',
+        ];
+    }
+    
+    
     private static $users = [
         '100' => [
             'id' => '100',
@@ -44,75 +69,95 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
             'accessToken' => '101-token',
         ],
     ];
-
-
+    
+    
     /**
      * {@inheritdoc}
      */
-    public static function findIdentity($id)
-    {
-      $_user = self::getUserDb($id);
-      return isset($_user) ? new static($_user->toArray()) : null;
+    public static function findIdentity($id) {
+        if ($userDb = Users::findOne($id)) {
+            $user = new static(['scenario' => User::SCENARIO_LOGIN]);
+            $user->setAttributes($userDb->attributes);
+            return $user;
+        }
+        return null;
     }
-
+    
     /**
      * {@inheritdoc}
      */
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
+    public static function findIdentityByAccessToken($token, $type = null) {
         foreach (self::$users as $user) {
             if ($user['accessToken'] === $token) {
                 return new static($user);
             }
         }
-
+        
         return null;
     }
-
+    
     /**
      * Finds user by username
      *
      * @param string $username
      * @return static|null
      */
-    public static function findByUsername($username)
-    {
-      $_user = self::getUserDb(['username' => $username]);
-      return isset($_user) ? new static($_user->toArray()) : null;
+    public static function findByUsername($username) {
+        if ($userDb = Users::findOne(['username' => $username])) {
+            $user = new static(['scenario' => User::SCENARIO_LOGIN]);
+            $user->setAttributes($userDb->attributes);
+            return $user;
+        }
+        return null;
     }
-
+    
     /**
      * {@inheritdoc}
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
-
+    
     /**
      * {@inheritdoc}
      */
-    public function getAuthKey()
-    {
+    public function getAuthKey() {
         return $this->authKey;
     }
-
+    
     /**
      * {@inheritdoc}
      */
-    public function validateAuthKey($authKey)
-    {
+    public function validateAuthKey($authKey) {
         return $this->authKey === $authKey;
     }
-
+    
     /**
      * Validates password
      *
      * @param string $password password to validate
      * @return bool if password provided is valid for current user
      */
-    public function validatePassword($password)
-    {
-        return $this->password === md5($password);
+    public function validatePassword($password) {
+        return Yii::$app->getSecurity()->validatePassword($password, $this->password);
+    }
+    
+    public function save() {
+        if ($this->validate()) {
+            $model = new Users();
+            $model->setAttributes($this->attributes);
+            $model->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
+            $model->setAttribute('role_id', Roles::findOne(['name' => Yii::$app->params['defaultRole']])->id);
+            
+            if ($model->save()) {
+                return true;
+            }
+            $arrErr = [];
+            foreach ($model->errors as $key => $error) {
+                $arrErr[$key] = $error[0];
+            }
+            $this->addErrors($arrErr);
+        }
+        return false;
     }
 }

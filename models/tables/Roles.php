@@ -6,6 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "roles".
@@ -68,4 +69,9 @@ class Roles extends ActiveRecord
     public function getUsers() {
         return $this->hasMany(Users::className(), ['role_id' => 'id']);
     }
+    
+    static public function getArrAllRoles() {
+        return ArrayHelper::map(self::find()->all(), 'id', 'name');
+    }
+    
 }

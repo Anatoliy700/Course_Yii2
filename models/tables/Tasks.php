@@ -15,7 +15,7 @@ use yii\db\Expression;
  * @property string $description
  * @property string $date
  * @property int $user_id
- * @property string $login
+ * @property string $username
  * @property string $created_at
  * @property string $updated_at
  *
@@ -34,10 +34,6 @@ class Tasks extends ActiveRecord
         return [
             [
                 'class' => TimestampBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
-                ],
                 'value' => new Expression('NOW()'),
             ],
         ];

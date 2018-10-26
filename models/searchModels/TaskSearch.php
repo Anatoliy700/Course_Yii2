@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\models\searchModels;
 
 use Yii;
 use app\models\tables\Users;
@@ -13,6 +13,8 @@ use app\models\tables\Tasks;
  */
 class TaskSearch extends Tasks
 {
+    
+    public $pageSize;
     /**
      * {@inheritdoc}
      */
@@ -46,7 +48,7 @@ class TaskSearch extends Tasks
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 5
+                'pageSize' => $this->pageSize
             ]
         ]);
         
