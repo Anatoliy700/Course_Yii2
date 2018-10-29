@@ -17,6 +17,7 @@ $this->title = 'Задачи команды на текущий месяц';
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
         'itemView' => 'item',
+        'layout' => "{summary}\n<div class='clearfix'>{items}</div>\n{pager}",
         'itemOptions' => function ($model) {
             return ['tag' => 'a', 'href' => Url::to(['task/view', 'id' => $model->id])];
         },

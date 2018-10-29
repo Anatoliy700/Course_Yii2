@@ -134,4 +134,9 @@ class SiteController extends Controller
         }
         $this->goHome();
     }
+    
+    public function actionSetLanguage($lng){
+        Yii::$app->appLanguage->set($lng);
+        $this->redirect(Yii::$app->request->getReferrer());
+    }
 }

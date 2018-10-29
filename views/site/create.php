@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 /* @var $model app\models\User */
 /* @var $form ActiveForm */
 
-$this->title = 'Registration';
+$this->title = Yii::t('app/main', 'Регистрация');
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $form->field($model, 'captcha')->widget(\yii\captcha\Captcha::classname()) ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton(Yii::t('app', Yii::t('app/main', 'Зарегистрировать')), ['class' => 'btn btn-primary']) ?>
     </div>
     <?php ActiveForm::end(); ?>
 

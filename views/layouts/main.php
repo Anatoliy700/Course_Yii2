@@ -39,23 +39,28 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            ['label' => 'Админка', 'url' => ['/admin']],
+            ['label' => Yii::t('app/main', 'Главная'), 'url' => ['/site/index']],
+            ['label' => Yii::t('app/main', 'О нас'), 'url' => ['/site/about']],
+            ['label' => Yii::t('app/main', 'Контакты'), 'url' => ['/site/contact']],
+            ['label' => Yii::t('app/main', 'Админ панель'), 'url' => ['/admin']],
             Yii::$app->user->isGuest ? (
-            ['label' => 'Регистрация', 'url' => ['/site/create']]
+            ['label' => Yii::t('app/main', 'Регистрация'), 'url' => ['/site/create']]
             ) : (
             
-            ['label' => 'Личный кабинет', 'url' => ['/lk']]
+            ['label' => Yii::t('app/main', 'Личный кабинет'), 'url' => ['/lk']]
             ),
+            ['label' => Yii::t('app/main', 'Язык')
+                . ' (' . Yii::t('app/main', 'рус') . ')', 'items' => [
+                ['label' => Yii::t('app/main', 'Английский'), 'url' => ['/site/set-language', 'lng' => 'en']],
+                ['label' => Yii::t('app/main', 'Русский'), 'url' => ['/site/set-language', 'lng' => 'ru']],
+            ]],
             Yii::$app->user->isGuest ? (
             ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    Yii::t('app/main', 'Выйти') . ' (' . Yii::$app->user->identity->username . ')',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()

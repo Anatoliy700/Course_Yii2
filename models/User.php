@@ -34,7 +34,7 @@ class User extends Model implements \yii\web\IdentityInterface
         return [
             [['username', 'password', 'password_repeat', 'first_name', 'last_name', 'email'], 'required'],
             [['username', 'first_name', 'last_name', 'email'], 'string', 'max' => 50],
-            [['password'], 'string', 'max' => 100, 'min' => 5],
+            [['password', 'password_repeat'], 'string', 'max' => 100, 'min' => 5],
             ['password', 'compare'],
             ['email', 'email'],
             ['captcha', 'captcha']
@@ -43,12 +43,13 @@ class User extends Model implements \yii\web\IdentityInterface
     
     public function attributeLabels() {
         return [
-            'username' => 'Username',
-            'password' => 'Password repeat',
-            'password_repeat' => 'Password',
-            'first_name' => 'First Name',
-            'last_name' => 'Last Name',
+            'username' => Yii::t('app/tables', 'Имя пользователя'),
+            'password' => Yii::t('app/tables', 'Повтор пароля'),
+            'password_repeat' => Yii::t('app/tables', 'Пароль'),
+            'first_name' => Yii::t('app/tables', 'Имя'),
+            'last_name' => Yii::t('app/tables', 'Фамилия'),
             'email' => 'Email',
+            'captcha' => Yii::t('app/tables', 'Капча')
         ];
     }
     

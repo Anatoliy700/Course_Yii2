@@ -37,10 +37,6 @@ class Users extends ActiveRecord
         return [
             [
                 'class' => TimestampBehavior::class,
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
-                ],
                 'value' => new Expression('NOW()'),
             ],
         ];
@@ -67,14 +63,14 @@ class Users extends ActiveRecord
     public function attributeLabels() {
         return [
             'id' => 'ID',
-            'username' => 'Username',
-            'password' => 'Password',
-            'first_name' => 'First Name',
-            'last_name' => 'Last Name',
-            'role_id' => 'Role',
+            'username' => Yii::t('app/tables', 'Имя пользователя'),
+            'password' => Yii::t('app/tables', 'Пароль'),
+            'first_name' => Yii::t('app/tables', 'Имя'),
+            'last_name' => Yii::t('app/tables', 'Фамилия'),
+            'role_id' => Yii::t('app/tables', 'Роль'),
             'email' => 'Email',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'created_at' => Yii::t('app/tables', 'Дата создания'),
+            'updated_at' => Yii::t('app/tables', 'Дата обновления'),
         ];
     }
     

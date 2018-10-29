@@ -10,3 +10,5 @@ $this->params['breadcrumbs'][] = $this->title;
 <?= Html::a('Пользователи' ,['user/index'], ['class' => 'btn btn-primary']) ?>
 
 <?= Html::a('Задачи' ,['task/index'], ['class' => 'btn btn-primary']) ?>
+
+<?= Html::a('Изображения' ,['image/index'], ['class' => 'btn btn-primary']) ?>

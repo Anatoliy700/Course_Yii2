@@ -6,7 +6,7 @@ use Yii;
 use app\models\tables\Users;
 use app\models\tables\Tasks;
 use app\modules\admin\models\Task;
-use app\modules\admin\models\searchModels\TaskSearch;
+use app\modules\admin\models\search\TaskSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

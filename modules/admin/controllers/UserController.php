@@ -5,7 +5,7 @@ namespace app\modules\admin\controllers;
 use app\models\tables\Roles;
 use Yii;
 use app\models\tables\Users;
-use app\modules\admin\models\searchModels\UserSearch;
+use app\modules\admin\models\search\UserSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

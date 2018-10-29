@@ -3,8 +3,10 @@
 namespace app\modules\lk\controllers;
 
 
+use app\modules\lk\models\Image;
 use app\modules\lk\models\search\TaskSearch;
 use app\models\tables\Tasks;
+use yii\web\UploadedFile;
 
 
 class TaskController extends InitController
@@ -41,9 +43,20 @@ class TaskController extends InitController
     }
     
     public function actionView($id) {
+        
+        $imageModel = new Image();
+        if (\Yii::$app->request->isPost) {
+            $imageModel->image = UploadedFile::getInstance($imageModel, 'image');
+            $imageModel->upload($id);
+            $this->redirect(\Yii::$app->request->get());
+        }
+        
         $model = Tasks::findOne($id);
+        $dataProvider = Image::getDataProvider($id);
         return $this->render('view', [
-            'model' => $model
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+            'imageModel' => $imageModel,
         ]);
     }
     

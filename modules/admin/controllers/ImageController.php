@@ -2,22 +2,23 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\tables\Tasks;
+use app\modules\admin\models\Image;
 use Yii;
-use app\models\tables\Roles;
-use app\modules\admin\models\search\RoleSearch;
+use app\models\tables\Images;
+use app\modules\admin\models\search\ImageSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * RoleController implements the CRUD actions for Roles model.
+ * ImageController implements the CRUD actions for Images model.
  */
-class RoleController extends AdminController
+class ImageController extends InitController
 {
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -27,100 +28,98 @@ class RoleController extends AdminController
             ],
         ];
     }
-
+    
     /**
-     * Lists all Roles models.
+     * Lists all Images models.
      * @return mixed
      */
-    public function actionIndex()
-    {
-        $searchModel = new RoleSearch();
+    public function actionIndex() {
+        $searchModel = new ImageSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
-
+    
     /**
-     * Displays a single Roles model.
+     * Displays a single Images model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
-
+    
     /**
-     * Creates a new Roles model.
+     * Creates a new Images model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
-        $model = new Roles();
-
+    public function actionCreate() {
+        $model = new Images();
+        $tasks = Tasks::getArrAllTasks();
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
-
+        
         return $this->render('create', [
             'model' => $model,
+            'tasks' => $tasks,
         ]);
     }
-
+    
     /**
-     * Updates an existing Roles model.
+     * Updates an existing Images model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
-
+        $tasks = Tasks::getArrAllTasks();
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
-
+        
         return $this->render('update', [
             'model' => $model,
+            'tasks' => $tasks,
         ]);
     }
-
+    
     /**
-     * Deletes an existing Roles model.
+     * Deletes an existing Images model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $this->findModel($id)->delete();
-
+        
         return $this->redirect(['index']);
     }
-
+    
     /**
-     * Finds the Roles model based on its primary key value.
+     * Finds the Images model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Roles the loaded model
+     * @return Images the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
-        if (($model = Roles::findOne($id)) !== null) {
+    protected function findModel($id) {
+        if (($model = Image::findOne($id)) !== null) {
             return $model;
         }
-
+        
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

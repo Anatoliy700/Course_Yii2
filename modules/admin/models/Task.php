@@ -6,7 +6,7 @@ use app\models\tables\Tasks;
 use Yii;
 use yii\base\Model;
 
-class Task extends Model
+class Task extends Tasks
 {
     public $id;
     public $date;
@@ -26,7 +26,8 @@ class Task extends Model
         ];
     }
     
-    public function save() {
+    
+    public function save($runValidation = true, $attributeNames = null) {
         if ($this->validate()) {
             if ($this->date == '') {
                 $this->date = date('Y-m-d');
@@ -39,14 +40,5 @@ class Task extends Model
             return true;
         }
         return false;
-    }
-    
-    public function attributeLabels() {
-        return [
-            'date' => 'Дата',
-            'title' => 'Задача',
-            'description' => 'Описание',
-            'user_id' => 'Пользователь',
-        ];
     }
 }

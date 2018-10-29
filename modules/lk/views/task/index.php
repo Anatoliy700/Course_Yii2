@@ -2,7 +2,7 @@
 
 /* @var $dataProvider \yii\data\ActiveDataProvider */
 
-/* @var $searchModel \app\modules\lk\models\TaskSearch */
+/* @var $searchModel \app\modules\lk\models\search\TaskSearch */
 
 use yii\helpers\Html;
 
@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= \yii\widgets\ListView::widget([
         'dataProvider' => $dataProvider,
         'itemView' => 'item',
+        'layout' => "{summary}\n<div class='clearfix'>{items}</div>\n{pager}",
         'itemOptions' => function ($model) {
             return ['tag' => 'a', 'href' => \yii\helpers\Url::to(['view', 'id' => $model->id])];
         },

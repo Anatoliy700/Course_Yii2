@@ -6,6 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "tasks".
@@ -61,13 +62,13 @@ class Tasks extends ActiveRecord
     public function attributeLabels() {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'description' => 'Description',
-            'date' => 'Date',
-            'user_id' => 'User ID',
-            'login' => 'Login',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'title' => Yii::t('app/tables', 'Заголовок'),
+            'description' => Yii::t('app/tables', 'Описание'),
+            'date' => Yii::t('app/tables', 'Дата'),
+            'user_id' => Yii::t('app/tables', 'Пользователь'),
+            'username' => Yii::t('app/tables', 'Пользователь'),
+            'created_at' => Yii::t('app/tables', 'Дата создания'),
+            'updated_at' => Yii::t('app/tables', 'Дата обновления'),
         ];
     }
     
@@ -85,4 +86,9 @@ class Tasks extends ActiveRecord
     public function getUsername() {
         return $this->user->username;
     }
+    
+    static public function getArrAllTasks() {
+        return ArrayHelper::map(self::find()->all(), 'id', 'title');
+    }
+    
 }

@@ -6,8 +6,8 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log', 'eventHandlers'],
-    'language' => 'ru',
+    'bootstrap' => ['log', 'eventHandlers', 'appLanguage'],
+    'language' => 'ru-RU',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
@@ -45,7 +45,7 @@ $config = [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
-                    'class' => 'yii\log\FileTarget',
+                    'class' => \yii\log\FileTarget::class,
                     'levels' => ['error', 'warning'],
                 ],
             ],
@@ -53,7 +53,19 @@ $config = [
         'db' => $db,
         'eventHandlers' => [
             'class' => 'app\components\eventHandlers\RegisterEventHandlers'
-        ]
+        ],
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => \yii\i18n\PhpMessageSource::class,
+                    'basePath' => '@app/messages',
+                    'sourceLanguage' => 'ru-RU',
+                ]
+            ]
+        ],
+        'appLanguage' => [
+          'class' => \app\components\appLanguage\AppLanguage::class,
+        ],
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,

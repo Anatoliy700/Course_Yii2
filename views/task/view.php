@@ -4,6 +4,7 @@ use yii\widgets\DetailView;
 use \yii\helpers\Html;
 
 /* @var $model \app\models\Task */
+/* @var $dataProvider \yii\data\ActiveDataProvider */
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Задачи', 'url' => ["index"]];
@@ -23,5 +24,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'updated_at',
     ]
   ]) ?>
+</div>
+
+<div class="task-images-wrap clearfix">
+    <?= \yii\widgets\ListView::widget([
+        'dataProvider' => $dataProvider,
+        'itemView' => 'imageItem',
+        'summary' => '',
+        'emptyText' => false,
+    ]) ?>
 </div>
 

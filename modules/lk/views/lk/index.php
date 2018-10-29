@@ -2,7 +2,8 @@
 /* @var $this yii\web\View */
 /* @var $user \app\models\User */
 
-$this->title = 'Личный кабинет'
+$this->title = 'Личный кабинет';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= $this->title ?></h1>
 

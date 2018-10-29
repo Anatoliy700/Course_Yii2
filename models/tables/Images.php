@@ -4,27 +4,25 @@ namespace app\models\tables;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
 use yii\db\Expression;
-use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for table "roles".
+ * This is the model class for table "images".
  *
  * @property int $id
  * @property string $name
- * @property string $created_at
- * @property string $updated_at
+ * @property int $task_id
  *
- * @property Users[] $users
+ * @property Tasks $task
  */
-class Roles extends ActiveRecord
+class Images extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
-    public static function tableName() {
-        return 'roles';
+    public static function tableName()
+    {
+        return 'images';
     }
     
     public function behaviors() {
@@ -39,35 +37,35 @@ class Roles extends ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules() {
+    public function rules()
+    {
         return [
-            [['created_at', 'updated_at'], 'safe'],
-            [['name'], 'string', 'max' => 50],
-            [['name'], 'unique'],
+            [['name', 'task_id'], 'required'],
+            [['task_id'], 'integer'],
+            [['name'], 'string', 'max' => 100],
+            [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::className(), 'targetAttribute' => ['task_id' => 'id']],
         ];
     }
-    
+
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return [
             'id' => 'ID',
             'name' => Yii::t('app/tables', 'Название'),
+            'task_id' => Yii::t('app/tables', 'Задача'),
             'created_at' => Yii::t('app/tables', 'Дата создания'),
             'updated_at' => Yii::t('app/tables', 'Дата обновления'),
         ];
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUsers() {
-        return $this->hasMany(Users::className(), ['role_id' => 'id']);
+    public function getTask()
+    {
+        return $this->hasOne(Tasks::className(), ['id' => 'task_id']);
     }
-    
-    static public function getArrAllRoles() {
-        return ArrayHelper::map(self::find()->all(), 'id', 'name');
-    }
-    
 }
