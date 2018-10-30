@@ -6,6 +6,7 @@ use \yii\helpers\Html;
 /* @var $model \app\models\Task */
 /* @var $imageModel \app\modules\lk\models\Image */
 /* @var $dataProvider \yii\data\ActiveDataProvider */
+/* @var $taskId string */
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Личный кабинет', 'url' => ['/lk']];
@@ -41,6 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h3>Добавить изображение</h3>
     <?= $this->render('imageForm', [
         'model' => $imageModel,
+        'taskId' => $taskId,
     ]) ?>
 </div>
 

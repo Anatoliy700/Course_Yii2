@@ -6,6 +6,7 @@ namespace app\modules\lk\controllers;
 use app\modules\lk\models\Image;
 use app\modules\lk\models\search\TaskSearch;
 use app\models\tables\Tasks;
+use yii\helpers\Url;
 use yii\web\UploadedFile;
 
 
@@ -43,21 +44,24 @@ class TaskController extends InitController
     }
     
     public function actionView($id) {
-        
-        $imageModel = new Image();
-        if (\Yii::$app->request->isPost) {
-            $imageModel->image = UploadedFile::getInstance($imageModel, 'image');
-            $imageModel->upload($id);
-            $this->redirect(\Yii::$app->request->get());
-        }
-        
         $model = Tasks::findOne($id);
+        $imageModel = new Image();
         $dataProvider = Image::getDataProvider($id);
         return $this->render('view', [
             'model' => $model,
             'dataProvider' => $dataProvider,
             'imageModel' => $imageModel,
+            'taskId' => $id,
         ]);
+    }
+    
+    public function actionAddImage($id) {
+        if (\Yii::$app->request->isPost) {
+            $imageModel = new Image();
+            $imageModel->image = UploadedFile::getInstance($imageModel, 'image');
+            $imageModel->upload($id);
+        }
+        $this->redirect(['view', 'id' => $id]);
     }
     
     
