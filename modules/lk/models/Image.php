@@ -24,10 +24,10 @@ class Image extends Images
         if ($this->validate()){
             $this->name = $this->translit($this->image->getBaseName()) . '.' . $this->image->getExtension();
             $this->task_id = $id;
-            $fileName = '@webroot/img/' . $this->name;
+            $fileName = '@taskImageRoot/' . $this->name;
             $this->image->saveAs(\Yii::getAlias($fileName));
            \yii\imagine\Image::thumbnail($fileName, '200', null)
-                ->save(\Yii::getAlias('@webroot/img/small/' . $this->name));
+                ->save(\Yii::getAlias('@taskImageRoot/small/' . $this->name));
            $model = new Images();
            $model->setAttributes($this->attributes);
            $model->save();

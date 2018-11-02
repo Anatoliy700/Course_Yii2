@@ -21,6 +21,7 @@ use yii\helpers\ArrayHelper;
  * @property string $updated_at
  *
  * @property Users $user
+ * @property Images $images
  */
 class Tasks extends ActiveRecord
 {
@@ -81,6 +82,13 @@ class Tasks extends ActiveRecord
      */
     public function getUser() {
         return $this->hasOne(Users::class, ['id' => 'user_id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getImages() {
+        return $this->hasMany(Images::class, ['task_id' => 'id']);
     }
     
     public function getUsername() {

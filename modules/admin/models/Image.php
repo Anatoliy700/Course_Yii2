@@ -9,8 +9,8 @@ use yii\helpers\BaseFileHelper;
 class Image extends Images
 {
     public function delete() {
-        BaseFileHelper::unlink(\Yii::getAlias('@webroot/img/') . $this->name);
-        BaseFileHelper::unlink(\Yii::getAlias('@webroot/img/small/') . $this->name);
+        BaseFileHelper::unlink(\Yii::getAlias('@taskImageRoot/') . $this->name);
+        BaseFileHelper::unlink(\Yii::getAlias('@taskImageRoot/small/') . $this->name);
         return parent::delete();
     }
     

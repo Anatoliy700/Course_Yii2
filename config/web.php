@@ -11,21 +11,22 @@ $config = [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
+        '@taskImageRoot' => '@app/web/img/task',
+        '@taskImage' => '/img/task',
     ],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'Q5Vvt-6obWg7CupIx5FpfPmCy117u2Il',
         ],
-        'redis' => [
-            'class' => 'yii\redis\Connection',
-            'hostname' => 'localhost',
-            'port' => 6379,
-            'database' => 0,
-        ],
         'cache' => [
             //'class' => 'yii\caching\FileCache',
-            'class' => 'yii\redis\Cache'
+            'class' => 'yii\redis\Cache',
+            'redis' => [
+                'hostname' => 'localhost',
+                'port' => 6379,
+                'database' => 0,
+            ]
         ],
         'user' => [
             'identityClass' => 'app\models\User',
@@ -64,16 +65,20 @@ $config = [
             ]
         ],
         'appLanguage' => [
-          'class' => \app\components\appLanguage\AppLanguage::class,
+            'class' => \app\components\appLanguage\AppLanguage::class,
         ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'tasks' => 'task/index',
+                'task/<id:\d+>' => 'task/view',
+                'lk/tasks/<page:\d*>-<per-page:\d*>' => 'lk/task/index',
+                'lk/tasks' => 'lk/task/index',
+                'lk/task/<id:\d+>' => 'lk/task/view',
+                'lk/task/add-image/<id:\d+>' => 'lk/task/add-image',
             ],
         ],
-        */
     ],
     'modules' => [
         'lk' => [
