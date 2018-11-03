@@ -12,15 +12,12 @@ class TaskController extends Controller
 {
     public function actionDeadline($pause = 1) {
         $users = Users::find()
-            ->leftJoin('tasks', '`tasks`.`user_id` = `users`.`id`')
-            ->where(['and', 'tasks.date > now()', 'tasks.date < adddate(now(), INTERVAL 1 DAY)'])
-            ->with([
+            ->joinWith([
                 'tasks' => function ($query) {
                     /* @var $query ActiveQuery */
                     $query->andWhere(['and', 'tasks.date > now()', 'tasks.date < adddate(now(), INTERVAL 1 DAY)']);
                 }
             ])
-            //->limit(1)
             ->all();
         
         Console::startProgress(1, count($users));
@@ -36,15 +33,5 @@ class TaskController extends Controller
             sleep($pause);
         }
         Console::endProgress(0);
-        
-        /*$data = (new Query())
-            ->select(['u.id', 'u.username', "CONCAT(u.first_name, ' ', u.last_name) AS name", 'u.email', 't.title'])
-            ->from(['u' => 'users'])
-            ->leftJoin(['t' => 'tasks'], 't.user_id = u.id')
-            ->where(['and', 't.date > now()', 't.date < adddate(now(), INTERVAL 1 DAY)'])
-            ->all();
-        
-        var_dump($data);*/
-        
     }
 }
