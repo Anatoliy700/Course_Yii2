@@ -13,11 +13,10 @@ class Task extends Model
     public $title;
     public $description;
     public $user_id;
-    static protected $taskDbClass = '\app\models\tables\Tasks';
     
     public function rules() {
         return [
-            //[['id'], 'integer', 'min' => 1],
+            [['id'], 'integer', 'min' => 1],
             [['title', 'description', 'user_id'], 'required'],
             ['date', 'date', 'format' => 'php:Y-m-d', 'min' => date('Y-m-d'), 'minString' => 'текущей'],
             ['title', 'string', 'length' => [5, 10]],
@@ -32,13 +31,24 @@ class Task extends Model
                 $this->date = date('Y-m-d');
             }
         }
-        $model = new Tasks();
+        if (isset($this->id)) {
+            $model = Tasks::findOne($this->id);
+        } else {
+            $model = new Tasks();
+        }
         $model->setAttributes($this->attributes);
         if ($model->save()) {
-            $this->id = $model->getPrimaryKey();
+            $this->id = $this->id ?? $model->getPrimaryKey();
             return true;
         }
         return false;
+    }
+    
+    static public function getOne($id) {
+        $model = Tasks::findOne($id);
+        $task = new static();
+        $task->setAttributes($model->attributes);
+        return $task;
     }
     
     public function attributeLabels() {

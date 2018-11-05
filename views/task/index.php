@@ -10,6 +10,14 @@ use yii\widgets\ListView;
 $this->title = 'Задачи команды на текущий месяц';
 ?>
 
+<p>
+    <?php if (Yii::$app->user->can('createTask')): ?>
+        <?= Html::a(Yii::t('app/main', 'Создать'), ['create'], ['class' => 'btn btn-success']) ?>
+    <?php endif; ?>
+   
+</p>
+
+
 <div class="tasks-index">
     <h1><?= Html::encode($this->title) ?></h1>
     

@@ -6,6 +6,7 @@ namespace app\modules\lk\controllers;
 use app\modules\lk\models\Image;
 use app\modules\lk\models\search\TaskSearch;
 use app\models\tables\Tasks;
+use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
 

@@ -42,13 +42,16 @@ AppAsset::register($this);
             ['label' => Yii::t('app/main', 'Главная'), 'url' => ['/site/index']],
             ['label' => Yii::t('app/main', 'О нас'), 'url' => ['/site/about']],
             ['label' => Yii::t('app/main', 'Контакты'), 'url' => ['/site/contact']],
-            ['label' => Yii::t('app/main', 'Админ панель'), 'url' => ['/admin']],
-            Yii::$app->user->isGuest ? (
-            ['label' => Yii::t('app/main', 'Регистрация'), 'url' => ['/site/create']]
-            ) : (
-            
-            ['label' => Yii::t('app/main', 'Личный кабинет'), 'url' => ['/lk']]
-            ),
+            [
+                'label' => Yii::t('app/main', 'Админ панель'),
+                'url' => ['/admin'],
+                'visible' => Yii::$app->user->can('accessAdmin'),
+            ],
+            [
+                'label' => Yii::t('app/main', 'Личный кабинет'),
+                'url' => ['/lk'],
+                'visible' => !Yii::$app->user->isGuest,
+            ],
             ['label' => Yii::t('app/main', 'Язык')
                 . ' (' . Yii::t('app/main', 'рус') . ')', 'items' => [
                 ['label' => Yii::t('app/main', 'Английский'), 'url' => ['/site/set-language', 'lng' => 'en']],
