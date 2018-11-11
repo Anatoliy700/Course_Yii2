@@ -37,25 +37,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'itemOptions' => function ($model) {
             return ['tag' => 'a', 'href' => \yii\helpers\Url::to(['view', 'id' => $model->id])];
         },
-    ]) ?>
-    
-    
-    
-    
-<!--  --><?//= GridView::widget([
-//    'dataProvider' => $dataProvider,
-//    'filterModel' => $searchModel,
-//    'columns' => [
-//      ['class' => 'yii\grid\SerialColumn'],
-//
-//      'id',
-//      'title',
-//      'description',
-//      'date',
-////            'user_id',
-//      'username',
-//
-//      ['class' => 'yii\grid\ActionColumn'],
-//    ],
-//  ]); ?>
+    ]) ?>    
+
 </div>

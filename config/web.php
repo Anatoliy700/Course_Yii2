@@ -20,13 +20,13 @@ $config = [
             'cookieValidationKey' => 'Q5Vvt-6obWg7CupIx5FpfPmCy117u2Il',
         ],
         'cache' => [
-            //'class' => 'yii\caching\FileCache',
-            'class' => 'yii\redis\Cache',
-            'redis' => [
+            'class' => 'yii\caching\FileCache',
+            //'class' => 'yii\redis\Cache',
+            /*'redis' => [
                 'hostname' => 'localhost',
                 'port' => 6379,
                 'database' => 0,
-            ]
+            ]*/
         ],
         'user' => [
             'identityClass' => 'app\models\User',

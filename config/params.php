@@ -2,5 +2,5 @@
 
 return [
     'adminEmail' => 'admin@example.com',
-    'defaultRole' => 'user'
+    'defaultRole' => 'admin'
 ];

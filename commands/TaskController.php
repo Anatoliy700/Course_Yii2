@@ -19,7 +19,9 @@ class TaskController extends Controller
                 }
             ])
             ->all();
-        
+        	
+	var_dump($users);
+
         Console::startProgress(1, count($users));
         $i = 1;
         foreach ($users as $user) {
