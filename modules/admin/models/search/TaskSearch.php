@@ -81,8 +81,13 @@ class TaskSearch extends Tasks
     public function getUser() {
         return $this->hasOne(Users::class, ['id' => 'user_id']);
     }
+
+	public function getUsername() {
+        return isset($this->username) ? $this->username : null;
+    }	
     
     public function setUsername($username) {
+		$this->username = $username;
         $user = Users::find()->where(['username' => $username])->one();
         if (!is_Null($user)) {
             $this->user_id = $user->id;

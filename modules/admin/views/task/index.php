@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'class' => 'form-control'
         ]
     ])?>
-    <?= $form->field($searchModel, 'username')->textInput()?>
+    <?=  $form->field($searchModel, 'username')->textInput() ?>
     <?= Html::submitButton('Отфильтровать') ?>
     <?php \yii\widgets\ActiveForm::end() ?>
 
@@ -38,5 +38,8 @@ $this->params['breadcrumbs'][] = $this->title;
             return ['tag' => 'a', 'href' => \yii\helpers\Url::to(['view', 'id' => $model->id])];
         },
     ]) ?>    
+    
+    
+    
 
 </div>

@@ -92,6 +92,7 @@ class Tasks extends ActiveRecord
     }
     
     public function getUsername() {
+	//var_dump($this);
         return $this->user->username;
     }
     
